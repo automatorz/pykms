@@ -1,0 +1,20 @@
+{
+	"name": "PyKMS",
+	"version": "2022.07.1",
+	"slug": "pykms",
+	"description": "KMS Server",
+	"arch": ["amd64"],
+	"url": "https://github.com/automatorz/pykms",
+	"startup": "application",
+	"boot": "auto",
+	"image": "ghcr.io/automatorz/pykms/{arch}",
+	"ports": {
+      "1688/tcp": 1688
+    },
+	"options": {
+		"log_level": "info"
+	},
+	"schema": {
+		"log_level": "list(trace|debug|info|notice|warning|error|fatal)"
+	}
+}

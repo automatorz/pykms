@@ -1,0 +1,37 @@
+name: "Build and push"
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Read version
+        run: |
+          echo "addon_version=$(jq -r '.version' addon-pykms/config.json)" >> ${GITHUB_ENV}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          cache-from: ghcr.io/automatorz/pykms/amd64:${{ env.addon_version }}
+          context: ./addon-pykms
+          file: ./addon-pykms/Dockerfile
+          push: true
+          tags: ghcr.io/automatorz/pykms/amd64:${{ env.addon_version }}
+          target: pykms
