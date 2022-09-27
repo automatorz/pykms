@@ -1,6 +1,6 @@
 {
 	"name": "PyKMS",
-	"version": "2022.07.1",
+	"version": "2022.09.1",
 	"slug": "pykms",
 	"description": "KMS Server",
 	"arch": ["amd64"],
